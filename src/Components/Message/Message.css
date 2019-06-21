@@ -16,7 +16,7 @@ a:hover {
 
 b,
 strong {
-    font-weight: 500;
+    font-weight: bold;
 }
 
 em {
@@ -154,7 +154,8 @@ pre code {
     position: absolute;
     width: 26px;
     height: 26px;
-    margin: 9px 0 0 -59px;
+    left: 24px;
+    margin: 8px 0 0 0;
     display: block;
     background-image: url(../../Assets/Icons/IconsetW_2x.png);
     background-size: 42px 1171px;

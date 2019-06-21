@@ -37,7 +37,7 @@ class MessageAuthor extends React.Component {
 
     render() {
         const { t, chatId, userId, openUser, openChat } = this.props;
-
+        
         const user = UserStore.get(userId);
         if (user) {
             const tileColor = isPrivateChat(chatId)

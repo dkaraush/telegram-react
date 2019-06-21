@@ -62,6 +62,16 @@ class Search extends React.Component {
             global: null,
             messages: null
         };
+
+        if (text != null && text.length > 0) {
+            const trimmedText = text.trim();
+
+            if (!trimmedText) {
+                this.loadContent();
+            } else {
+                this.searchText(trimmedText);
+            }
+        }
     }
 
     static getDerivedStateFromProps(props, state) {

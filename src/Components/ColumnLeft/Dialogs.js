@@ -60,12 +60,22 @@ class Dialogs extends Component {
         ApplicationStore.on('clientUpdateChatDetailsVisibility', this.onClientUpdateChatDetailsVisibility);
         ApplicationStore.on('clientUpdateSearchChat', this.onClientUpdateSearchChat);
         ApplicationStore.on('clientUpdateThemeChange', this.onClientUpdateThemeChange);
+        ApplicationStore.on('clientUpdateSearchHashtag', this.onClientUpdateSearchHashtag);
     }
 
     componentWillUnmount() {
         ApplicationStore.removeListener('clientUpdateChatDetailsVisibility', this.onClientUpdateChatDetailsVisibility);
         ApplicationStore.removeListener('clientUpdateSearchChat', this.onClientUpdateSearchChat);
         ApplicationStore.removeListener('clientUpdateThemeChange', this.onClientUpdateThemeChange);
+        ApplicationStore.removeListener('clientUpdateSearchHashtag', this.onClientUpdateSearchHashtag);
+    }
+
+    onClientUpdateSearchHashtag = update => {
+        this.setState({
+            openSearch: true,
+            searchChatId: update.chatId,
+            searchText: update.text
+        });
     }
 
     onClientUpdateThemeChange = update => {
@@ -132,7 +142,7 @@ class Dialogs extends Component {
     render() {
         const { classes } = this.props;
         const { isChatDetailsVisible, openSearch, searchChatId, searchText } = this.state;
-
+        
         return (
             <div
                 className={classNames(classes.borderColor, 'dialogs', {
@@ -140,6 +150,7 @@ class Dialogs extends Component {
                 })}>
                 <DialogsHeader
                     openSearch={openSearch}
+                    searchText={searchText}
                     onClick={this.handleHeaderClick}
                     onSearch={this.handleSearch}
                     onSearchTextChange={this.handleSearchTextChange}

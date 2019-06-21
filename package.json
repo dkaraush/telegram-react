@@ -59,10 +59,11 @@
     "gh-pages": "^2.0.1",
     "webpack-bundle-analyzer": "^3.3.2"
   },
-  "browserslist": [
-    ">0.2%",
-    "not dead",
-    "not ie <= 11",
-    "not op_mini all"
-  ]
+  "browserslist": {
+    "production": [
+     
+    ],
+    "development": [  
+    ]
+  }
 }

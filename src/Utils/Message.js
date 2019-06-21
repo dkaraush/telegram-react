@@ -20,6 +20,7 @@ import Venue from '../Components/Message/Media/Venue';
 import Video from '../Components/Message/Media/Video';
 import VideoNote from '../Components/Message/Media/VideoNote';
 import VoiceNote from '../Components/Message/Media/VoiceNote';
+import Search from '../Components/ColumnLeft/Search/Search';
 import { getChatTitle } from './Chat';
 import { openUser } from './../Actions/Client';
 import { getPhotoSize, getSize } from './Common';
@@ -119,7 +120,7 @@ function getFormattedText(text) {
         );
         switch (text.entities[i].type['@type']) {
             case 'textEntityTypeUrl': {
-                let url = entityText.startsWith('http') ? entityText : 'http://' + entityText;
+                let url = entityText.startsWith('http') ? entityText : 'http:\/\/' + entityText;
                 let decodedUrl;
                 try {
                     decodedUrl = decodeURI(entityText);
@@ -144,7 +145,7 @@ function getFormattedText(text) {
             case 'textEntityTypeTextUrl': {
                 let url = text.entities[i].type.url.startsWith('http')
                     ? text.entities[i].type.url
-                    : 'http://' + text.entities[i].type.url;
+                    : 'http:\/\/' + text.entities[i].type.url;
                 result.push(
                     <a
                         key={text.entities[i].offset}
@@ -175,29 +176,41 @@ function getFormattedText(text) {
                 );
                 break;
             case 'textEntityTypeMention':
-                result.push(
-                    <a key={text.entities[i].offset} onClick={stopPropagation} href={`#/im?p=${entityText}`}>
-                        {entityText}
-                    </a>
-                );
-                break;
             case 'textEntityTypeMentionName':
+                function openMention(event) {
+                    stopPropagation(event);
+                    TdLibController.send({
+                        '@type': 'searchPublicChat',
+                        username: entityText
+                    }).then(function (result) {
+                        console.log('result', result);
+                    }).catch(error => {
+                        console.log('error', error);
+                    })
+                }
                 result.push(
                     <a
                         key={text.entities[i].offset}
-                        onClick={stopPropagation}
-                        href={`#/im?p=u${text.entities[i].type.user_id}`}>
+
+                        onClick={openMention}>
                         {entityText}
                     </a>
                 );
                 break;
             case 'textEntityTypeHashtag':
                 let hashtag = entityText.length > 0 && entityText[0] === '#' ? substring(entityText, 1) : entityText;
+                function searchHashtag(e) {
+                    stopPropagation(e);
+                    const chatId = ApplicationStore.getChatId();
+                    const chat = ChatStore.get(chatId);
+                    if (!chat) return;
+                    ApplicationStore.emit('clientUpdateSearchHashtag', { chatId: chatId, text: '#' + hashtag });
+                }
                 result.push(
                     <a
                         key={text.entities[i].offset}
-                        onClick={stopPropagation}
-                        href={`tg://search_hashtag?hashtag=${hashtag}`}>
+                        onClick={searchHashtag}
+                        >
                         {entityText}
                     </a>
                 );

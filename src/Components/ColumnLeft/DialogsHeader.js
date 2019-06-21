@@ -80,6 +80,7 @@ class DialogsHeader extends React.Component {
     handleDone = () => {
         this.handleClose();
         TdLibController.logOut();
+        setTimeout(window.location.reload, 100);
     };
 
     handleClose = () => {
@@ -163,7 +164,9 @@ class DialogsHeader extends React.Component {
                                 onKeyDown={this.handleKeyDown}
                                 onKeyUp={this.handleKeyUp}
                                 onPaste={this.handlePaste}
-                            />
+                            >
+                            {this.props.searchText}
+                            </div>
                         </div>
                     </>
                 )}
