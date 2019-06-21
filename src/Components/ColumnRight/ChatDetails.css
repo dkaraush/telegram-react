@@ -15,11 +15,14 @@
 }
 
 .chat-details-info {
-    margin: 10px 22px;
+    padding: 10px 22px;
+}
+.chat-details-list > * {
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .chat-details-list {
-    overflow-y: scroll;
     -webkit-overflow-scrolling: touch;
     flex-grow: 1;
     flex-shrink: 1;

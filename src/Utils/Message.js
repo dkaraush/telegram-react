@@ -180,17 +180,18 @@ function getFormattedText(text) {
             case 'textEntityTypeMentionName':
                 function openMention(event) {
                     stopPropagation(event);
-                    console.log((entityText[0] != '@' ? '@' : '') + entityText);
-                    TdLibController.send({
-                        '@type': 'searchPublicChat',
-                        username: (entityText[0] != '@' ? '@' : '') + entityText
-                    })
-                        .then(function(result) {
-                            openChatCommand(result.id, null, true);
-                        })
-                        .catch(error => {
-                            console.log('error', error);
+
+                    if (text.entities[i].type.user_id) {
+                        openChatCommand(text.entities[i].type.user_id, null, true);
+                    } else {
+                        let searchText = (entityText[0] != '@' ? '@' : '') + entityText;
+                        TdLibController.send({
+                            '@type': 'searchPublicChat',
+                            username: searchText
+                        }).then(function(result) {
+                            if (result) openChatCommand(result.id, null, true);
                         });
+                    }
                 }
                 result.push(
                     <a key={text.entities[i].offset} onClick={openMention}>

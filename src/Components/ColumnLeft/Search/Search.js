@@ -118,6 +118,7 @@ class Search extends React.Component {
         const map = new Map();
 
         for (let i = 0; i < results.length; i++) {
+            if (results[i] == null) continue;
             let result = results[i].chat_ids;
             if (result) {
                 for (let j = 0; j < result.length; j++) {
