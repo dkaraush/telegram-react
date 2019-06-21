@@ -1,5 +1,5 @@
 {
-  "homepage": "http://evgeny-nadymov.github.io/telegram-react",
+  "homepage": "http://dkaraush.github.io/telegram-react",
   "name": "telegram_react",
   "version": "0.0.340",
   "private": true,
@@ -60,10 +60,7 @@
     "webpack-bundle-analyzer": "^3.3.2"
   },
   "browserslist": {
-    "production": [
-     
-    ],
-    "development": [  
-    ]
+    "production": [],
+    "development": []
   }
 }

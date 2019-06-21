@@ -35,6 +35,7 @@ import FileStore from '../Stores/FileStore';
 import MessageStore from '../Stores/MessageStore';
 import UserStore from '../Stores/UserStore';
 import TdLibController from '../Controllers/TdLibController';
+import { openUser as openUserCommand, openChat as openChatCommand } from '../Actions/Client';
 
 function getAuthor(message) {
     if (!message) return null;
@@ -120,7 +121,7 @@ function getFormattedText(text) {
         );
         switch (text.entities[i].type['@type']) {
             case 'textEntityTypeUrl': {
-                let url = entityText.startsWith('http') ? entityText : 'http:\/\/' + entityText;
+                let url = entityText.startsWith('http') ? entityText : 'http://' + entityText;
                 let decodedUrl;
                 try {
                     decodedUrl = decodeURI(entityText);
@@ -145,7 +146,7 @@ function getFormattedText(text) {
             case 'textEntityTypeTextUrl': {
                 let url = text.entities[i].type.url.startsWith('http')
                     ? text.entities[i].type.url
-                    : 'http:\/\/' + text.entities[i].type.url;
+                    : 'http://' + text.entities[i].type.url;
                 result.push(
                     <a
                         key={text.entities[i].offset}
@@ -179,20 +180,20 @@ function getFormattedText(text) {
             case 'textEntityTypeMentionName':
                 function openMention(event) {
                     stopPropagation(event);
+                    console.log((entityText[0] != '@' ? '@' : '') + entityText);
                     TdLibController.send({
                         '@type': 'searchPublicChat',
-                        username: entityText
-                    }).then(function (result) {
-                        console.log('result', result);
-                    }).catch(error => {
-                        console.log('error', error);
+                        username: (entityText[0] != '@' ? '@' : '') + entityText
                     })
+                        .then(function(result) {
+                            openChatCommand(result.id, null, true);
+                        })
+                        .catch(error => {
+                            console.log('error', error);
+                        });
                 }
                 result.push(
-                    <a
-                        key={text.entities[i].offset}
-
-                        onClick={openMention}>
+                    <a key={text.entities[i].offset} onClick={openMention}>
                         {entityText}
                     </a>
                 );
@@ -207,10 +208,7 @@ function getFormattedText(text) {
                     ApplicationStore.emit('clientUpdateSearchHashtag', { chatId: chatId, text: '#' + hashtag });
                 }
                 result.push(
-                    <a
-                        key={text.entities[i].offset}
-                        onClick={searchHashtag}
-                        >
+                    <a key={text.entities[i].offset} onClick={searchHashtag}>
                         {entityText}
                     </a>
                 );

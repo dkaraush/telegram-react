@@ -32,25 +32,33 @@ import './TelegramApp.css';
 
 const MainPage = React.lazy(() => import('./Components/MainPage'));
 
-const styles = theme => ({
-    '@global': {
-        a: {
-            color: theme.palette.primary.main
-        },
-        code: {
-            color: theme.palette.primary.dark
-        },
-        '*::-webkit-scrollbar-thumb': {
-            'background-color': theme.palette.type == 'dark' ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.25)'
-        },
-        '*::-webkit-scrollbar-thumb:hover': {
-            'background-color': theme.palette.type == 'dark' ? 'rgba(255,255,255,0.75)' : 'rgba(0,0,0,0.5)'
-        },
-        '*::-webkit-scrollbar-track:hover': {
-            'background-color': theme.palette.type == 'dark' ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+const styles = theme => {
+    let dark = theme.palette.type == 'dark';
+    return {
+        '@global': {
+            pre: {
+                'background-color': (dark ? '#151515' : '#f5f5f5') + ' !important',
+                color: (dark ? '#ffffff' : '#000000') + ' !important',
+                border: dark ? 'none !important' : ''
+            },
+            a: {
+                color: theme.palette.primary.main
+            },
+            code: {
+                color: theme.palette.primary.dark
+            },
+            '*::-webkit-scrollbar-thumb': {
+                'background-color': dark ? 'rgba(255,255,255,0.5)' : 'rgba(0,0,0,0.25)'
+            },
+            '*::-webkit-scrollbar-thumb:hover': {
+                'background-color': dark ? 'rgba(255,255,255,0.75)' : 'rgba(0,0,0,0.5)'
+            },
+            '*::-webkit-scrollbar-track:hover': {
+                'background-color': dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+            }
         }
-    }
-});
+    };
+};
 
 class TelegramApp extends Component {
     constructor(props) {

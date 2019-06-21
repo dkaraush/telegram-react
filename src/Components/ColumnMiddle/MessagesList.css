@@ -23,6 +23,7 @@
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
     transform: translateZ(0);
+    padding-bottom: 8px;
 }
 
 .messages-list-top {
