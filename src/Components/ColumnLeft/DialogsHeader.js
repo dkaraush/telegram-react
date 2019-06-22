@@ -142,7 +142,7 @@ class DialogsHeader extends React.Component {
         ) : null;
 
         return (
-            <div className='header-master'>
+            <div className='header-master' ref={this.props.headerMaster}>
                 {!openSearch ? (
                     <>
                         <MainMenuButton onLogOut={this.handleLogOut} />
@@ -163,9 +163,8 @@ class DialogsHeader extends React.Component {
                                 suppressContentEditableWarning
                                 onKeyDown={this.handleKeyDown}
                                 onKeyUp={this.handleKeyUp}
-                                onPaste={this.handlePaste}
-                            >
-                            {this.props.searchText}
+                                onPaste={this.handlePaste}>
+                                {this.props.searchText}
                             </div>
                         </div>
                     </>

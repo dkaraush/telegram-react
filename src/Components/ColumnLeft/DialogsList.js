@@ -6,6 +6,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Scrollbars } from 'react-custom-scrollbars';
 import DialogControl from '../Tile/DialogControl';
 import { CHAT_SLICE_LIMIT } from '../../Constants';
@@ -261,6 +262,7 @@ class DialogsList extends React.Component {
 
     handleScroll = () => {
         const list = this.listRef.current;
+        this.props.onScrollChange(list.scrollTop);
 
         if (list && list.scrollTop + list.offsetHeight >= list.scrollHeight) {
             this.onLoadNext();
@@ -346,5 +348,9 @@ class DialogsList extends React.Component {
         );
     }
 }
+
+DialogsList.propTypes = {
+    onScrollChange: PropTypes.func.isRequired
+};
 
 export default DialogsList;

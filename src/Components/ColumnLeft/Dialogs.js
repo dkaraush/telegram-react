@@ -26,6 +26,7 @@ class Dialogs extends Component {
     constructor(props) {
         super(props);
 
+        this.dialogsHeader = React.createRef();
         this.dialogsList = React.createRef();
 
         this.state = {
@@ -76,7 +77,7 @@ class Dialogs extends Component {
             searchChatId: update.chatId,
             searchText: update.text
         });
-    }
+    };
 
     onClientUpdateThemeChange = update => {
         this.forceUpdate();
@@ -139,16 +140,22 @@ class Dialogs extends Component {
         });
     };
 
+    handleScroll = y => {
+        if (this.dialogsHeader.current)
+            this.dialogsHeader.current.className = 'header-master ' + (y < 5 ? '' : 'with-shadow');
+    };
+
     render() {
         const { classes } = this.props;
         const { isChatDetailsVisible, openSearch, searchChatId, searchText } = this.state;
-        
+
         return (
             <div
                 className={classNames(classes.borderColor, 'dialogs', {
                     'dialogs-third-column': isChatDetailsVisible
                 })}>
                 <DialogsHeader
+                    headerMaster={this.dialogsHeader}
                     openSearch={openSearch}
                     searchText={searchText}
                     onClick={this.handleHeaderClick}
@@ -156,7 +163,7 @@ class Dialogs extends Component {
                     onSearchTextChange={this.handleSearchTextChange}
                 />
                 <div className='dialogs-content'>
-                    <DialogsList ref={this.dialogsList} />
+                    <DialogsList ref={this.dialogsList} onScrollChange={this.handleScroll} />
                     {openSearch && (
                         <Search
                             chatId={searchChatId}

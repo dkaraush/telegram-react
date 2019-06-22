@@ -10,6 +10,11 @@
     display: flex;
     align-items: center;
     overflow: hidden;
+    box-shadow: none;
+    transition: box-shadow 0.25s ease-in-out;
+}
+.header-master.with-shadow {
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.25);
 }
 
 .header-details {
