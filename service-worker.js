@@ -37,7 +37,7 @@
 /* eslint-disable indent, no-unused-vars, no-multiple-empty-lines, max-nested-callbacks, space-before-function-paren, quotes, comma-spacing */
 'use strict';
 
-var precacheConfig = [["/telegram-react/1.5bf22bc6b3c8aab8a6e3.worker.js","60c2d9a6be38b46e29c96454b3ec1fa0"],["/telegram-react/5bf22bc6b3c8aab8a6e3.worker.js","8f31a5947f64bc390aa4e9cb94007dad"],["/telegram-react/ef5b7375afcb3e32ba4066a0003c699c.wasm","ef5b7375afcb3e32ba4066a0003c699c"],["/telegram-react/emoji-mart.dark.css","c685ecbad478000a1457ff2c44efb20b"],["/telegram-react/emoji-mart.light.css","3a1b68f915b000610e461618dcfe27d8"],["/telegram-react/index.html","27092663745e2b3e392eb358feb9dad6"],["/telegram-react/static/css/3.b63b0b76.chunk.css","17c211b9169b93e87cc3339136bafee0"],["/telegram-react/static/css/5.9ecaf00e.chunk.css","2c1ce23e3af896d178d408b92bb5612f"],["/telegram-react/static/css/6.e689d479.chunk.css","bb6987e5aaaf160c06cf5af7d81a9a25"],["/telegram-react/static/css/main.f0cc6d71.chunk.css","b9ece25bb0af7b6c6b272eaefffef059"],["/telegram-react/static/js/2.7feaa8ef.chunk.js","10e0a3f6e42618dd7276d66bd07ba827"],["/telegram-react/static/js/3.dfdc75f5.chunk.js","155178b18bfe4c80e67b6fcb762198e0"],["/telegram-react/static/js/4.dac62ee6.chunk.js","6fe433462e7d26bf873a5709c90c0adc"],["/telegram-react/static/js/5.8a7f670c.chunk.js","8a503cf16ab9ae8f877a43557cbd9e61"],["/telegram-react/static/js/6.2fc3d751.chunk.js","3bb2518950bdb2f3ea10085de97ed1ea"],["/telegram-react/static/js/7.c847218f.chunk.js","0caabef58f866665ce5d47d0a2cc88c5"],["/telegram-react/static/js/8.c4a41c8a.chunk.js","ab43e43f968b36ed7755f27ce49e14cf"],["/telegram-react/static/js/main.1f3af4dc.chunk.js","776ce82126ac0ab85d0186811e9fecf4"],["/telegram-react/static/js/runtime~main.7532f0e1.js","548a33eaef754932e96198367d2cf20e"],["/telegram-react/static/media/General_2x.5270d71c.png","5270d71cd78fd282a3736b0e6ae7f048"],["/telegram-react/static/media/IconsetW_2x.f01cec9b.png","f01cec9bccc80a678ed0ec04acecade2"],["/telegram-react/static/media/Manytabs_2x.7a71629a.png","7a71629a5e4f7482b6320b103f1d543c"],["/telegram-react/static/media/check.71da7469.svg","71da74694e314a0e3a855ded564a1eaf"],["/telegram-react/tdweb.js","6b1e103885f12d34a447a19fa3636b71"]];
+var precacheConfig = [["/telegram-react/1.5bf22bc6b3c8aab8a6e3.worker.js","60c2d9a6be38b46e29c96454b3ec1fa0"],["/telegram-react/5bf22bc6b3c8aab8a6e3.worker.js","8f31a5947f64bc390aa4e9cb94007dad"],["/telegram-react/ef5b7375afcb3e32ba4066a0003c699c.wasm","ef5b7375afcb3e32ba4066a0003c699c"],["/telegram-react/emoji-mart.dark.css","c685ecbad478000a1457ff2c44efb20b"],["/telegram-react/emoji-mart.light.css","3a1b68f915b000610e461618dcfe27d8"],["/telegram-react/index.html","b7a92aef617abe48dab74073df64e3ac"],["/telegram-react/static/css/3.995d2f18.chunk.css","ca64c02a3743c276bc524dc3ca9067cc"],["/telegram-react/static/css/5.d0255c3f.chunk.css","823607c47d1e172069e93454accb3640"],["/telegram-react/static/css/6.cc707b60.chunk.css","93cb02cc2a22235ec5f070e840b58572"],["/telegram-react/static/css/main.e62ac4ae.chunk.css","9bff564519775db7dd47d5e1e8ee0c07"],["/telegram-react/static/js/2.b729408d.chunk.js","b769637eec45e6ab527a58d9b0ff2d98"],["/telegram-react/static/js/3.c4338518.chunk.js","bed8d3a7825494033f585578a5936369"],["/telegram-react/static/js/4.02eddc6f.chunk.js","8e7e6486b915351b76c300698c9550fd"],["/telegram-react/static/js/5.8505ba25.chunk.js","13d221948ce17cb51f68a0dff9ce7123"],["/telegram-react/static/js/6.c3596989.chunk.js","1021d52d3421cee8d1fb3e9823dda424"],["/telegram-react/static/js/7.6f8516b5.chunk.js","15be47eb0386c07703289a739fc8af38"],["/telegram-react/static/js/8.c2dd3521.chunk.js","606e4970820bea8cd0c04c59db8221cb"],["/telegram-react/static/js/main.b686c36a.chunk.js","d7dcdf7cfa4ce6be3375ed690b94e43a"],["/telegram-react/static/js/runtime~main.b4c395fa.js","7535eb03a05e02cafa1b1716d3a06c3e"],["/telegram-react/static/media/General_2x.5270d71c.png","5270d71cd78fd282a3736b0e6ae7f048"],["/telegram-react/static/media/IconsetW_2x.f01cec9b.png","f01cec9bccc80a678ed0ec04acecade2"],["/telegram-react/static/media/Manytabs_2x.7a71629a.png","7a71629a5e4f7482b6320b103f1d543c"],["/telegram-react/static/media/check.71da7469.svg","71da74694e314a0e3a855ded564a1eaf"],["/telegram-react/tdweb.js","6b1e103885f12d34a447a19fa3636b71"]];
 var cacheName = 'sw-precache-v3-sw-precache-webpack-plugin-' + (self.registration ? self.registration.scope : '');
 
 
@@ -45,7 +45,7 @@ var ignoreUrlParametersMatching = [/./];
 
 
 
-var addDirectoryIndex = function(originalUrl, index) {
+var addDirectoryIndex = function (originalUrl, index) {
     var url = new URL(originalUrl);
     if (url.pathname.slice(-1) === '/') {
       url.pathname += index;
@@ -53,7 +53,7 @@ var addDirectoryIndex = function(originalUrl, index) {
     return url.toString();
   };
 
-var cleanResponse = function(originalResponse) {
+var cleanResponse = function (originalResponse) {
     // If this is not a redirected response, then we don't have to do anything.
     if (!originalResponse.redirected) {
       return Promise.resolve(originalResponse);
@@ -75,7 +75,7 @@ var cleanResponse = function(originalResponse) {
     });
   };
 
-var createCacheKey = function(originalUrl, paramName, paramValue,
+var createCacheKey = function (originalUrl, paramName, paramValue,
                            dontCacheBustUrlsMatching) {
     // Create a new URL object to avoid modifying originalUrl.
     var url = new URL(originalUrl);
@@ -91,7 +91,7 @@ var createCacheKey = function(originalUrl, paramName, paramValue,
     return url.toString();
   };
 
-var isPathWhitelisted = function(whitelist, absoluteUrlString) {
+var isPathWhitelisted = function (whitelist, absoluteUrlString) {
     // If the whitelist is empty, then consider all URLs to be whitelisted.
     if (whitelist.length === 0) {
       return true;
@@ -104,7 +104,7 @@ var isPathWhitelisted = function(whitelist, absoluteUrlString) {
     });
   };
 
-var stripIgnoredUrlParameters = function(originalUrl,
+var stripIgnoredUrlParameters = function (originalUrl,
     ignoreUrlParametersMatching) {
     var url = new URL(originalUrl);
     // Remove the hash; see https://github.com/GoogleChrome/sw-precache/issues/290
