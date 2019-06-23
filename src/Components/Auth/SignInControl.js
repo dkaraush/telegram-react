@@ -403,7 +403,7 @@ class SignInControl extends React.Component {
         })
             .then(result => {})
             .catch(error => {
-                console.error('setauthphonenumber');
+                console.log(error);
                 let errorString = null;
                 if (error && error['@type'] === 'error' && error.message) {
                     errorString = error.message;
@@ -472,6 +472,7 @@ class SignInControl extends React.Component {
                     id='countrySelect'
                     label={t('Country')}
                     name='country'
+                    disabled={loading}
                     onChange={this.onCountrySelect}
                     value={this.state.phoneCode.trim()}>
                     {countriesItems}

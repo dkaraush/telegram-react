@@ -16,6 +16,12 @@ import FileStore from '../../../Stores/FileStore';
 import './Sticker.css';
 
 class Sticker extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.img = React.createRef();
+    }
+
     componentDidMount() {
         FileStore.on('clientUpdateStickerThumbnailBlob', this.onClientUpdateStickerThumbnailBlob);
         FileStore.on('clientUpdateStickerBlob', this.onClientUpdateStickerBlob);
@@ -64,13 +70,20 @@ class Sticker extends React.Component {
             height: fitSize.height,
             ...style
         };
+        // let T = this;
+        // setTimeout(function () {
+        //     console.log('polyfillImage');
+        //     const webpMachine = new WebpMachine();
+        //     webpMachine.polyfillImage(T.img.current).then(console.log).catch(console.log)
+        // }, 1000);
 
         return (
             <div className={classNames('sticker', className)} style={stickerStyle} onClick={openMedia}>
                 {src && !preview ? (
-                    <img className='sticker-image' draggable={false} src={src} alt='' />
+                    <img ref={this.img} className='sticker-image' draggable={false} src={src} alt='' />
                 ) : (
                     <img
+                        ref={this.img}
                         className={classNames('sticker-image', { 'media-blurred': isBlurred && blur })}
                         draggable={false}
                         src={thumbnailSrc}

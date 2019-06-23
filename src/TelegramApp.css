@@ -82,8 +82,8 @@ strong {
     width: 5px;
 }
 *::-webkit-scrollbar-button {
-    width: 3px;
-    height: 3px;
+    width: 5px;
+    height: 5px;
 }
 *::-webkit-scrollbar-thumb {
     background: rgba(255, 255, 255, 0.5);

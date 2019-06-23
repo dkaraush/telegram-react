@@ -28,6 +28,7 @@ import FileStore from '../../Stores/FileStore';
 import ApplicationStore from '../../Stores/ApplicationStore';
 import PlayerStore from '../../Stores/PlayerStore';
 import TdLibController from '../../Controllers/TdLibController';
+import ArrowDown from '../../Components/ColumnMiddle/ArrowDown';
 import './MessagesList.css';
 
 const ScrollBehaviorEnum = Object.freeze({
@@ -38,11 +39,23 @@ const ScrollBehaviorEnum = Object.freeze({
     KEEP_SCROLL_POSITION: 'KEEP_SCROLL_POSITION'
 });
 
-const styles = theme => ({
-    background: {
-        background: theme.palette.type === 'dark' ? theme.palette.grey[900] : 'transparent'
-    }
-});
+const styles = theme => {
+    let dark = theme.palette.type === 'dark';
+    return {
+        background: {
+            background: dark ? theme.palette.grey[900] : 'transparent'
+        },
+        'arrow-down': {
+            background: (dark ? '#303030' : '#FFFFFF') + ' !important',
+            '&:hover': {
+                background: (dark ? '#202020' : '#EEEEEE') + ' !important'
+            },
+            '&:active': {
+                background: (dark ? '#111111' : '#DDDDDD') + ' !important'
+            }
+        }
+    };
+};
 
 class MessagesList extends React.Component {
     constructor(props) {
@@ -64,6 +77,7 @@ class MessagesList extends React.Component {
 
         this.listRef = React.createRef();
         this.itemsRef = React.createRef();
+        this.arrowDown = React.createRef();
 
         this.itemsMap = new Map();
 
@@ -544,6 +558,46 @@ class MessagesList extends React.Component {
         }
     };
 
+    onLoadLast = async () => {
+        const { chatId } = this.props;
+
+        if (!chatId) return;
+        if (this.loading) return;
+
+        this.loading = true;
+
+        const sessionId = this.sessionId;
+        let result = await TdLibController.send({
+            '@type': 'getChatHistory',
+            chat_id: chatId,
+            from_message_id: 0,
+            offset: 0,
+            limit: MESSAGE_SLICE_LIMIT
+        }).finally(() => {
+            this.loading = false;
+        });
+
+        if (sessionId !== this.sessionId || this.props.chatId !== chatId) {
+            return;
+        }
+
+        var messages = result.messages;
+        result.messages.reverse();
+        this.setState({ history: result.messages });
+
+        MessageStore.setItems(result.messages);
+        // this.insertBefore(this.filterMessages(result.messages), () => {
+        //     if (!result.messages.length) {
+        //         this.onLoadMigratedHistory();
+        //     }
+        // });
+        const store = FileStore.getStore();
+        loadMessageContents(store, result.messages);
+        // MessagesList.viewMessages(result.messages);
+
+        return result;
+    };
+
     onLoadNext = async () => {
         const { chatId } = this.props;
 
@@ -581,7 +635,6 @@ class MessagesList extends React.Component {
             return;
         }
         //TODO: replace result with one-way data flow
-
         MessageStore.setItems(result.messages);
         result.messages.reverse();
         this.insertBefore(this.filterMessages(result.messages), () => {
@@ -770,6 +823,10 @@ class MessagesList extends React.Component {
 
         const list = this.listRef.current;
         //console.log(`SCROLL HANDLESCROLL list.scrollTop=${list.scrollTop} list.offsetHeight=${list.offsetHeight} list.scrollHeight=${list.scrollHeight} chatId=${this.props.chatId}`);
+
+        if (this.arrowDown.current) {
+            this.arrowDown.current.setStatus(list.scrollTop + list.offsetHeight < list.scrollHeight - 10);
+        }
 
         if (this.suppressHandleScroll) {
             console.log('SCROLL HANDLESCROLL suppressHandleScroll');
@@ -1053,6 +1110,14 @@ class MessagesList extends React.Component {
                 <PinnedMessage chatId={chatId} />
                 <FilesDropTarget />
                 <StickersHint />
+                <ArrowDown
+                    class={classes['arrow-down']}
+                    ref={this.arrowDown}
+                    onClick={() => {
+                        this.onLoadLast();
+                        this.scrollToBottom();
+                    }}
+                />
             </div>
         );
     }

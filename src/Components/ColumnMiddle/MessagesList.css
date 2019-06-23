@@ -12,6 +12,7 @@
     position: relative;
     overflow-y: auto;
     -webkit-overflow-scrolling: touch;
+    overflow: hidden;
 }
 
 .messages-list-wrapper {
@@ -25,6 +26,7 @@
     transform: translateZ(0);
     padding-bottom: 8px;
     margin-right: 3px;
+    position: relative;
 }
 
 .messages-list-top {

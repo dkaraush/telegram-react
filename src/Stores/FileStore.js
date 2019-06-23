@@ -601,7 +601,7 @@ class FileStore extends EventEmitter {
 
     deleteLocalFile = (store, file) => {};
 
-    getLocalFile(store, file, arr, callback, faultCallback) {
+    getLocalFile(store, file, arr, callback, faultCallback, middle) {
         if (useReadFile) {
             file = this.get(file.id) || file;
             if (file && file.local && !file.local.is_downloading_completed) {
@@ -616,7 +616,14 @@ class FileStore extends EventEmitter {
                 });
 
                 console.log(`readFile result file_id=${file.id}`, file, response);
-                this.setBlob(file.id, response.data);
+                if (middle) {
+                    let result_blob = await new Promise((resolve, reject) => {
+                        middle(response.data, resolve);
+                    });
+                    this.setBlob(file.id, result_blob);
+                } else {
+                    this.setBlob(file.id, response.data);
+                }
             })(file).then(callback, faultCallback);
 
             return;
@@ -634,9 +641,20 @@ class FileStore extends EventEmitter {
         }
 
         if (arr) {
-            file.blob = new Blob([arr]);
-            this.setBlob(file.id, file.blob);
-            callback();
+            let blob = new Blob([arr]),
+                fs = this;
+            if (middle) {
+                console.log('{TVOROG} running middle 1');
+                middle(blob, function(result_blob) {
+                    file.blob = result_blob;
+                    fs.setBlob(file.id, file.blob);
+                    callback();
+                });
+            } else {
+                file.blob = blob;
+                this.setBlob(file.id, file.blob);
+                callback();
+            }
             return;
         }
 
@@ -654,9 +672,19 @@ class FileStore extends EventEmitter {
             const blob = event.target.result;
 
             if (blob) {
-                file.blob = blob;
-                this.setBlob(file.id, file.blob);
-                callback();
+                let fs = this;
+                if (middle) {
+                    console.log('{TVOROG} running middle 2');
+                    middle(blob, function(result_blob) {
+                        file.blob = result_blob;
+                        fs.setBlob(file.id, file.blob);
+                        callback();
+                    });
+                } else {
+                    file.blob = blob;
+                    this.setBlob(file.id, file.blob);
+                    callback();
+                }
             } else {
                 faultCallback();
             }

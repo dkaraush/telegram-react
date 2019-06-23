@@ -4,7 +4,6 @@
  * This source code is licensed under the GPL v.3.0 license found in the
  * LICENSE file in the root directory of this source tree.
  */
-
 import React, { Component } from 'react';
 import Cookies from 'universal-cookie';
 import { compose } from 'recompose';
