@@ -36,6 +36,10 @@ class FileStore extends EventEmitter {
         this.setMaxListeners(Infinity);
     }
 
+    // clear = () => {
+
+    // }
+
     onUpdate = async update => {
         switch (update['@type']) {
             case 'updateFile': {

@@ -199,9 +199,7 @@ class Search extends React.Component {
             this.setState({
                 top: null,
                 recentlyFound: null,
-                local: local,
-                global: null,
-                messages: null
+                local: local
             });
 
             store = FileStore.getStore();
@@ -237,7 +235,7 @@ class Search extends React.Component {
 
                 store = FileStore.getStore();
                 loadChatsContent(store, global);
-            }
+            } else this.setState({ global: null });
         }
 
         let messages = [];

@@ -157,6 +157,7 @@ class Dialogs extends Component {
         const { classes } = this.props;
         const { isChatDetailsVisible, openSearch, searchChatId, searchText } = this.state;
 
+        console.log('rerender with ' + searchText);
         return (
             <div
                 className={classNames(classes.borderColor, 'dialogs', {

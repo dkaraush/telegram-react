@@ -581,19 +581,21 @@ class MessagesList extends React.Component {
             return;
         }
 
-        var messages = result.messages;
-        result.messages.reverse();
-        this.setState({ history: result.messages });
+        var messages = this.filterMessages(result.messages);
+        messages.reverse();
+        // console.log(this.state)
 
-        MessageStore.setItems(result.messages);
-        // this.insertBefore(this.filterMessages(result.messages), () => {
-        //     if (!result.messages.length) {
-        //         this.onLoadMigratedHistory();
-        //     }
-        // });
+        MessageStore.setItems(messages);
+        // messages.reverse();
+        // this.insertAfter(this.filterMessages(messages), ScrollBehaviorEnum.NONE);
         const store = FileStore.getStore();
-        loadMessageContents(store, result.messages);
-        // MessagesList.viewMessages(result.messages);
+        loadMessageContents(store, messages);
+        MessagesList.viewMessages(messages);
+        this.setState({
+            history: messages,
+            prevMessageId: 0,
+            prevChatId: chatId
+        });
 
         return result;
     };
