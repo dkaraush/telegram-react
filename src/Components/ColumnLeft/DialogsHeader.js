@@ -80,7 +80,13 @@ class DialogsHeader extends React.Component {
     handleDone = () => {
         this.handleClose();
         TdLibController.logOut();
-        setTimeout(window.location.reload, 100);
+        let app = document.querySelector('#app');
+        let loading = document.createElement('div');
+        loading.className = 'logout-loading';
+        let loadingL = document.createElement('div');
+        loadingL.className = 'spinner';
+        loading.appendChild(loadingL);
+        app.appendChild(loading);
     };
 
     handleClose = () => {

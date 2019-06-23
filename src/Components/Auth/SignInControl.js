@@ -389,6 +389,11 @@ class SignInControl extends React.Component {
     handleDone = () => {
         const { phone, onPhoneEnter, t } = this.props;
 
+        let loading = null;
+        if ((loading = document.querySelector('#app .logout-loading'))) {
+            loading.remove();
+        }
+
         const phoneNumber = this.state.phoneCode + (this.state.phoneNumber || phone);
         if (!isValidPhoneNumber(phoneNumber)) {
             this.setState({ error: { code: 'InvalidPhoneNumber' } });

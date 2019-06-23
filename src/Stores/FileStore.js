@@ -9,6 +9,7 @@ import { EventEmitter } from 'events';
 import { getLocationId } from '../Utils/Message';
 import { FILE_PRIORITY, THUMBNAIL_PRIORITY } from '../Constants';
 import TdLibController from '../Controllers/TdLibController';
+import supportWebp from '../Utils/NativeWebpSupportChecker.js';
 
 const useReadFile = true;
 
@@ -27,6 +28,9 @@ class FileStore extends EventEmitter {
 
         this.downloads = new Map();
         this.uploads = new Map();
+
+        this.canvas = document.createElement('canvas');
+        this.ctx = this.canvas.getContext('2d');
 
         this.addTdLibListener();
         this.setMaxListeners(Infinity);
@@ -601,7 +605,56 @@ class FileStore extends EventEmitter {
 
     deleteLocalFile = (store, file) => {};
 
-    getLocalFile(store, file, arr, callback, faultCallback, middle) {
+    convertFromWebP = (blob, callback) => {
+        this.toArrayBuffer(blob, buff => {
+            var data = new Uint8Array(buff);
+            window.B = data;
+
+            let decoder = new window.WebPDecoder();
+            let imagearray = window.WebPRiffParser(window.B, 0);
+            imagearray.response = window.B;
+            imagearray.rgbaoutput = true;
+            imagearray.dataurl = false;
+            let viewer = new window.WebPImageViewer(decoder, imagearray, frame => {
+                let width = imagearray.header ? imagearray.header.canvas_width : frame.imgwidth;
+                let height = imagearray.header ? imagearray.header.canvas_height : frame.imgheight;
+
+                // if (!this.canvas) {
+                //     this.canvas = document.createElement('canvas');
+                // }
+                // if (!this.ctx) {
+                //     this.ctx = this.canvas.getContext('2d');
+                // }
+
+                this.canvas.width = width;
+                this.canvas.height = height;
+
+                let imagedata = this.ctx.createImageData(width, height);
+                let rgba = frame.rgbaoutput;
+                for (var i = 0; i < width * height * 4; ++i) imagedata.data[i] = rgba[i];
+
+                this.ctx.putImageData(imagedata, 0, 0);
+
+                this.canvas.toBlob(callback);
+            });
+        });
+    };
+    convertBinaryToArray = binary => {
+        var arr = new Array();
+        var num = binary.length;
+        var i;
+        for (i = 0; i < num; ++i) arr.push(binary.charCodeAt(i));
+        return arr;
+    };
+    toArrayBuffer = (blob, callback) => {
+        let fileReader = new FileReader();
+        fileReader.onload = function(event) {
+            callback(event.target.result);
+        };
+        fileReader.readAsArrayBuffer(blob);
+    };
+
+    getLocalFile(store, file, arr, callback, faultCallback, shouldConvert = false) {
         if (useReadFile) {
             file = this.get(file.id) || file;
             if (file && file.local && !file.local.is_downloading_completed) {
@@ -616,9 +669,9 @@ class FileStore extends EventEmitter {
                 });
 
                 console.log(`readFile result file_id=${file.id}`, file, response);
-                if (middle) {
+                if (shouldConvert) {
                     let result_blob = await new Promise((resolve, reject) => {
-                        middle(response.data, resolve);
+                        this.convertFromWebP(response.data, resolve);
                     });
                     this.setBlob(file.id, result_blob);
                 } else {
@@ -643,9 +696,8 @@ class FileStore extends EventEmitter {
         if (arr) {
             let blob = new Blob([arr]),
                 fs = this;
-            if (middle) {
-                console.log('{TVOROG} running middle 1');
-                middle(blob, function(result_blob) {
+            if (shouldConvert) {
+                this.convertFromWebP(blob, function(result_blob) {
                     file.blob = result_blob;
                     fs.setBlob(file.id, file.blob);
                     callback();
@@ -673,9 +725,9 @@ class FileStore extends EventEmitter {
 
             if (blob) {
                 let fs = this;
-                if (middle) {
+                if (shouldConvert) {
                     console.log('{TVOROG} running middle 2');
-                    middle(blob, function(result_blob) {
+                    this.convertFromWebP(blob, function(result_blob) {
                         file.blob = result_blob;
                         fs.setBlob(file.id, file.blob);
                         callback();

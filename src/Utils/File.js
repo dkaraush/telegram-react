@@ -31,6 +31,7 @@ import FileStore from '../Stores/FileStore';
 import MessageStore from '../Stores/MessageStore';
 import UserStore from '../Stores/UserStore';
 import TdLibController from '../Controllers/TdLibController';
+import supportWebp from '../Utils/NativeWebpSupportChecker.js';
 
 function getSizeString(size) {
     if (!size) return `0 B`;
@@ -608,7 +609,8 @@ function loadStickerContent(store, sticker, message, useFileSize = true) {
             if (!useFileSize || (size && size < PRELOAD_STICKER_SIZE)) {
                 FileStore.getRemoteFile(id, FILE_PRIORITY, message || sticker);
             }
-        }
+        },
+        !supportWebp()
     );
 }
 
@@ -639,7 +641,8 @@ function loadStickerThumbnailContent(store, sticker, message) {
         },
         () => {
             FileStore.getRemoteFile(id, THUMBNAIL_PRIORITY, message || sticker);
-        }
+        },
+        !supportWebp()
     );
 
     return true;

@@ -28,6 +28,7 @@ class Dialogs extends Component {
 
         this.dialogsHeader = React.createRef();
         this.dialogsList = React.createRef();
+        this.search = React.createRef();
 
         this.state = {
             isChatDetailsVisible: ApplicationStore.isChatDetailsVisible,
@@ -98,10 +99,12 @@ class Dialogs extends Component {
     };
 
     handleHeaderClick = () => {
+        console.log('handleHeaderClick()');
         this.dialogsList.current.scrollToTop();
     };
 
     handleSearch = visible => {
+        console.log('handleSearch()');
         this.setState({
             openSearch: visible,
             searchChatId: 0,
@@ -135,9 +138,14 @@ class Dialogs extends Component {
     };
 
     handleSearchTextChange = text => {
+        console.log('handleSearchTextChange()');
         this.setState({
             searchText: text
         });
+        // console.log(text)
+        // if (this.search.current) {
+        //     console.log('search.current', this.search.current);
+        // }
     };
 
     handleScroll = y => {
@@ -166,8 +174,8 @@ class Dialogs extends Component {
                     <DialogsList ref={this.dialogsList} onScrollChange={this.handleScroll} />
                     {openSearch && (
                         <Search
+                            ref={this.search}
                             chatId={searchChatId}
-                            text={searchText}
                             onSelectMessage={this.handleSelectMessage}
                             onClose={this.handleClose}
                         />

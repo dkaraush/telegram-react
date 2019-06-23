@@ -54,6 +54,12 @@ const styles = theme => {
             },
             '*::-webkit-scrollbar-track:hover': {
                 'background-color': dark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.05)'
+            },
+            '.logout-loading': {
+                background: dark ? '#222222' : '#e7ebf0'
+            },
+            html: {
+                background: dark ? '#222222' : '#e7ebf0'
             }
         }
     };

@@ -102,3 +102,46 @@ strong {
 *::-webkit-scrollbar-corner {
     background: transparent;
 }
+
+.logout-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #e7ebf0;
+    z-index: 5;
+    animation-name: fade-in;
+    animation-duration: 0.5s;
+}
+.logout-loading .spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 20px;
+    height: 20px;
+    border: 3px solid #cccccc;
+    border-radius: 50%;
+    border-top-color: #777777;
+    animation: rotating 0.5s linear infinite;
+}
+@keyframes rotating {
+    0% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(180deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+@keyframes fade-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
